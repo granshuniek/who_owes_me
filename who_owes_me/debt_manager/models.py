@@ -39,7 +39,7 @@ class Debts(models.Model):
     date = models.DateTimeField()
 
     def __str__(self):
-        return "{0} - {1} (date: {3}): {4}".format(self.amount, self.for_what, self.date ,self.description)
+        return "{0} - {1} (date: {2}): {3}".format(self.amount, self.for_what, self.date ,self.description)
 
     def get_absolute_url(self):
         return reverse('debt-detail', args=[str(self.id)])
