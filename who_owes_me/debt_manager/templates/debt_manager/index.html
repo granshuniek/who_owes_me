@@ -1,0 +1,14 @@
+{% extends "debt_manager/base_generic.html" %}
+
+{% block content %}
+    <ul>
+    {% for debt in debts%}
+        <li>
+            <p>Amount: {{debt.amount}}</p>
+            <p>For what: {{debt.for_what}}</p>
+            <p>Description: {{debt.description}}</p>
+            <p>Date: {{debt.date}}</p>
+        </li>
+    {% endfor %}
+    </ul>
+{% endblock %}
