@@ -1,11 +1,14 @@
 from django.shortcuts import render
 from django.views import generic
 from .models import Debtors, Debts, Creditors
+from django.db.models import Sum
 
 def index(request):
     all_debts = Debts.objects.all()
+    debts_sum = Debts.objects.get_income_dict()
     context = {
-        'debts': all_debts
+        'debts': all_debts,
+        'debts_sum': debts_sum,
     }
 
     return render(request, 'debt_manager/index.html', context)
@@ -25,7 +28,7 @@ class DebtorDetailView(generic.DetailView):
 
 
 class CreditorListView(generic.ListView):
-    model = Debtors
+    model = Creditors
 
 class CreditorDetailView(generic.DetailView):
-    model = Debtors
+    model = Creditors

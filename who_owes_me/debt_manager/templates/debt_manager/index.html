@@ -1,6 +1,9 @@
 {% extends "debt_manager/base_generic.html" %}
 
 {% block content %}
+    {% for key, value in debts_sum.items %}
+        <p><strong>{{ key }}:</strong> {{ value }}</p>
+    {% endfor %}
     <ul>
     {% for debt in debts%}
         <li>
