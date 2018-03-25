@@ -1,17 +1,15 @@
 {% extends "debt_manager/base_generic.html" %}
 
 {% block content %}
-    {% for key, value in debts_sum.items %}
-        <p><strong>{{ key }}:</strong> {{ value }}</p>
-    {% endfor %}
-    <ul>
-    {% for debt in debts%}
-        <li>
-            <p>Amount: {{debt.amount}}</p>
-            <p>For what: {{debt.for_what}}</p>
-            <p>Description: {{debt.description}}</p>
-            <p>Date: {{debt.date}}</p>
-        </li>
-    {% endfor %}
-    </ul>
+    <h1>
+        Welcome in my simple debt manager app. 
+    </h1>
+    <h3>
+        Make yourself at home!
+    </h3>
+    <p>
+        I started writing this app because of my siblings. They all the time owe me money... It coincidence 
+        with my will to learn Django web framework. And here it is, my debt manager written in Python Django, 
+        HTML5, CSS3, JS and maybe Angular or React.
+    </p>
 {% endblock %}
