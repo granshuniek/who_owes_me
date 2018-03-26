@@ -21,5 +21,5 @@ class DebtsTestCase(TestCase):
         pass
 
     def test_set_up_data(self):
-        print(type(Debts.objects.get(id=1)))
-        self.assertTrue(isinstance(Debts, Debts.objects.all()))
+        amount = Debts.objects.get(id=1).amount
+        self.assertTrue(100, amount)
