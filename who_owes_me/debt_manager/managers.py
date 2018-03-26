@@ -25,8 +25,7 @@ class DebtsManager(models.Manager):
 
     def _count_income_dict(self, debt_dict, charge_dict):
         '''
-            Jezeli ktos posiada dlug, to zostaje on umniejszony o charge.
-            
+            If somenoe has debt then it is reduced by charge.            
         '''
         # TODO: case when someone is in charge dict but not in debt dict
         
