@@ -8,8 +8,6 @@ class DebtsTestCase(TestCase):
     def setUpTestData(self):
         debtor = Debtors.objects.create(first_name="Jan", last_name="Kowalski")
         creditor = Creditors.objects.create(first_name="Andrzej", last_name="Grabowski")
-        print(debtor)
-        print(creditor)
         Debts.objects.create(debtor=debtor, creditor=creditor,
                              amount=100, for_what='asd', description='asdffds',
                              date=datetime.now())
