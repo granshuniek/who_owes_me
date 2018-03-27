@@ -1,5 +1,11 @@
 {% extends "debt_manager/base_generic.html" %}
 
 {% block content %}
-
+    {% if debtors_list %}
+    <ul>
+        {% for debtor in debtors_list %}
+            <li><a href="{{ debtor.get_absolute_url }}"> {{ debtor.first_name}} {{ debtor.last_name }}</a></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
 {% endblock %}

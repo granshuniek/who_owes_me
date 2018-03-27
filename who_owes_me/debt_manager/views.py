@@ -19,9 +19,12 @@ class DebtListView(generic.ListView):
 class DebtDetailView(generic.DetailView):
     model = Debts
 
-
 class DebtorListView(generic.ListView):
     model = Debtors
+    
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs) 
+    #     return context
 
 class DebtorDetailView(generic.DetailView):
     model = Debtors

@@ -14,6 +14,9 @@ class Debtors(models.Model):
             String representation of model.
         '''
         return '{0} {1}'.format(self.first_name, self.last_name)
+    
+    def get_absolute_url(self):
+        return reverse('debtors-detail', args=[str(self.id)])
 
 class Creditors(models.Model):
     '''
@@ -27,6 +30,9 @@ class Creditors(models.Model):
             String representation of model.
         '''
         return '{0} {1}'.format(self.first_name, self.last_name)
+    
+    def get_absolute_url(self):
+        return reverse('creditors-detail', args=[str(self.id)])
 
 class Debts(models.Model):
     '''
@@ -44,4 +50,4 @@ class Debts(models.Model):
         return "{0} - {1} (date: {2}): {3}".format(self.amount, self.for_what, self.date ,self.description)
 
     def get_absolute_url(self):
-        return reverse('debt-detail', args=[str(self.id)])
+        return reverse('debts-detail', args=[str(self.id)])

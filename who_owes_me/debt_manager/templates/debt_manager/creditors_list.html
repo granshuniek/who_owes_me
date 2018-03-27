@@ -1,5 +1,11 @@
 {% extends "debt_manager/base_generic.html" %}
 
 {% block content %}
-
+    {% if creditors_list %}
+    <ul>
+        {% for creditor in creditors_list %}
+            <li><a href="{{ creditor.get_absolute_url }}"> {{ creditor.first_name}} {{ creditor.last_name }}</a></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
 {% endblock %}

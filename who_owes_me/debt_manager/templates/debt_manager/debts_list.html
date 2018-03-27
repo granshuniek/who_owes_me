@@ -1,17 +1,11 @@
 {% extends "debt_manager/base_generic.html" %}
 
 {% block content %}
-    <!-- {% for key, value in debts_sum.items %}
-        <p><strong>{{ key.0 }} {{ key.1 }}:</strong> {{ value }}</p>
-    {% endfor %} -->
-    <!-- <ul>
-    {% for debt in debts%}
-        <li>
-            <p>Amount: {{debt.amount}}</p>
-            <p>For what: {{debt.for_what}}</p>
-            <p>Description: {{debt.description}}</p>
-            <p>Date: {{debt.date}}</p>
-        </li>
-    {% endfor %}
-    </ul> -->
+    {% if debts_list %}
+    <ul>
+        {% for debts in debts_list %}
+            <li><a href="{{ debts.get_absolute_url }}"> {{ debts.first_name}} {{ debts.last_name }}</a></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
 {% endblock %}
