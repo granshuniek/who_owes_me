@@ -21,10 +21,12 @@ class DebtDetailView(generic.DetailView):
 
 class DebtorListView(generic.ListView):
     model = Debtors
-    
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs) 
-    #     return context
+    # sum = Debtor.objects.filter(type='Flour').aggregate(Sum('column'))['column__sum']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs) 
+        context['debts_sums'] = self.model.objects.get_debtor_debts_sum()
+        return context
 
 class DebtorDetailView(generic.DetailView):
     model = Debtors

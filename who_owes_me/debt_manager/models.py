@@ -1,6 +1,6 @@
 from django.db import models
 from django.urls import reverse
-from .managers import DebtsManager
+from .managers import DebtsManager, DebtorsManager
 
 class Debtors(models.Model):
     '''
@@ -8,6 +8,8 @@ class Debtors(models.Model):
     '''
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
+
+    objects = DebtorsManager()
 
     def __str__(self):
         '''
