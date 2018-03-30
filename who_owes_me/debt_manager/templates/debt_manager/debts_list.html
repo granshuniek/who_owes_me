@@ -2,10 +2,23 @@
 
 {% block content %}
     {% if debts_list %}
-    <ul>
+    <table class="table">
+        <tr>
+            <th>ID</th>
+            <th>Who?</th>
+            <th>Whom?</th>
+            <th>How many?</th>
+            <th>For what?</th>
+        </tr>
         {% for debts in debts_list %}
-            <li><a href="{{ debts.get_absolute_url }}"> {{ debts.first_name}} {{ debts.last_name }}</a></li>
+            <tr>
+                <td><a href="{{ debts.get_absolute_url }}">{{ forloop.counter }}</a></td>
+                <td><a href="{{ debts.debtor.get_absolute_url }}">{{ debts.debtor.first_name}} {{ debts.debtor.last_name }}</a></td>
+                <td><a href="{{ debts.creditor.get_absolute_url }}">{{ debts.creditor.first_name}} {{ debts.creditor.last_name }}</a></td>
+                <td><a href="{{ debts.get_absolute_url }}">{{ debts.amount }}</a></td>
+                <td><a href="{{ debts.get_absolute_url }}">{{ debts.for_what }}</a></td>
+            </tr>
         {% endfor %}
-    </ul>
+    </table>
     {% endif %}
 {% endblock %}
