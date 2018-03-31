@@ -5,9 +5,38 @@ def execute_sql(sql):
             cursor.execute(sql)
             return cursor.fetchall()
 
-class DebtorsManager(models.Manager):
+class CreditorsAndDebtorsManager(models.Manager):
+    """
+        Manager for Debtors and Creditors models.
+    """
+    def get_creditor_charges_sum(self):
+        """
+        Method sum amount of charges of current creditor.
+        
+        :returns: return_dict
+            { creditor_id: sumed_charge }
+        """
+
+        sql = '''
+            SELECT crds.id, sum(dts.amount)
+            FROM debt_manager_debts dts
+            JOIN debt_manager_creditors crds on crds.id=dts.creditor_id
+            GROUP BY crds.id
+        '''
+        response = execute_sql(sql)
+        return_dict = {}
+        for creditor_id, sumed_charge in response:
+            return_dict[creditor_id] = sumed_charge
+        return return_dict    
 
     def get_debtor_debts_sum(self):
+        """
+        Method sum amount of debts of current debtor.
+        
+        :returns: return_dict
+            { debtor_id: sumed_debt }
+        """
+
         sql = '''
             SELECT dbtr.id, sum(dts.amount)
             FROM debt_manager_debts dts

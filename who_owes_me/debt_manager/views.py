@@ -34,6 +34,10 @@ class DebtorDetailView(generic.DetailView):
 
 class CreditorListView(generic.ListView):
     model = Creditors
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs) 
+        context['charges_sums'] = self.model.objects.get_creditor_charges_sum()
+        return context
 
 class CreditorDetailView(generic.DetailView):
     model = Creditors

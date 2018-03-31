@@ -1,6 +1,6 @@
 from django.db import models
 from django.urls import reverse
-from .managers import DebtsManager, DebtorsManager
+from .managers import DebtsManager, CreditorsAndDebtorsManager
 
 class Debtors(models.Model):
     '''
@@ -9,7 +9,7 @@ class Debtors(models.Model):
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
 
-    objects = DebtorsManager()
+    objects = CreditorsAndDebtorsManager()
 
     def __str__(self):
         '''
@@ -26,6 +26,8 @@ class Creditors(models.Model):
     '''
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
+
+    objects = CreditorsAndDebtorsManager()
 
     def __str__(self):
         '''
