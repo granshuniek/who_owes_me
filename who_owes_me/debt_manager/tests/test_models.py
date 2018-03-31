@@ -2,6 +2,8 @@ from django.test import TestCase
 from debt_manager.models import Debtors, Creditors, Debts
 from datetime import datetime
 
+# django tests run: python manage.py test debt_manager.tests
+
 class DebtsTestCase(TestCase):
 
     @classmethod
@@ -18,7 +20,7 @@ class DebtsTestCase(TestCase):
                              amount=100, for_what='asd', description='asdffds',
                              date=datetime.now())
         
-        Debts.objects.create(debtor=debtor2, creditor=creditor1,
+        Debts.objects.create(debtor=debtor1, creditor=creditor1,
                              amount=100, for_what='asd', description='asdffds',
                              date=datetime.now())
         
@@ -40,5 +42,11 @@ class DebtsTestCase(TestCase):
         test_charges_dict = {1: 200.0,
                              2: 50.0}
         
+        charges_sum = Creditors.objects.get_creditor_charges_sum()
+        self.assertEqual(test_charges_dict, charges_sum)
+
+    def test_debtors_debts_sum(self):
+        test_charges_dict = {1: 200.0,
+                             2: 50.0}
         charges_sum = Creditors.objects.get_creditor_charges_sum()
         self.assertEqual(test_charges_dict, charges_sum)
