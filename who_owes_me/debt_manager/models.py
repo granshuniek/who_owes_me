@@ -2,13 +2,20 @@ from django.db import models
 from django.urls import reverse
 from .managers import DebtsManager, CreditorsAndDebtorsManager
 
+def _user_directory_path_debtors(instance, filename):
+    return 'media/debt_manager/avatars/debtors/{0}/{1}'.format(instance.id, filename)
+
+def _user_directory_path_creditors(instance, filename):
+    return 'media/debt_manager/avatars/creditors/{0}/{1}'.format(instance.id, filename)
+
 class Debtors(models.Model):
     '''
         Model represents people who are owe money.
     '''
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
-
+    avatar = models.ImageField(upload_to=_user_directory_path_debtors, null=True)
+    
     objects = CreditorsAndDebtorsManager()
 
     def __str__(self):
@@ -26,6 +33,7 @@ class Creditors(models.Model):
     '''
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
+    avatar = models.ImageField(upload_to=_user_directory_path_creditors, null=True)
 
     objects = CreditorsAndDebtorsManager()
 

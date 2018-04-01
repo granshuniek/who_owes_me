@@ -11,5 +11,5 @@ urlpatterns = [
     path('debtor/<int:pk>', views.DebtorDetailView.as_view(), name='debtors-detail'),
 
     path('creditors/', views.CreditorListView.as_view(), name='creditors-list'),
-    path('reditor/<int:pk>', views.CreditorDetailView.as_view(), name='creditors-detail'),
+    path('creditor/<int:pk>', views.CreditorDetailView.as_view(), name='creditors-detail'),
 ]
