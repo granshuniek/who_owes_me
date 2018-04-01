@@ -2,11 +2,15 @@ from django.db import models
 from django.urls import reverse
 from .managers import DebtsManager, CreditorsAndDebtorsManager
 
-def _user_directory_path_debtors(instance, filename):
-    return 'media/debt_manager/avatars/debtors/{0}/{1}'.format(instance.id, filename)
+def upload_path_handler_debtors(instance, filename):
+    import os.path
+    fn, ext = os.path.splitext(filename)
+    return "media/debt_manager/avatars/debtors/{id}/{fn}{ext}".format(id=instance.pk, fn=fn,ext=ext)
 
-def _user_directory_path_creditors(instance, filename):
-    return 'media/debt_manager/avatars/creditors/{0}/{1}'.format(instance.id, filename)
+def upload_path_handler_creditors(instance, filename):
+    import os.path
+    fn, ext = os.path.splitext(filename)
+    return "media/debt_manager/avatars/creditors/{id}/{fn}{ext}".format(id=instance.pk, fn=fn,ext=ext)
 
 class Debtors(models.Model):
     '''
@@ -14,7 +18,7 @@ class Debtors(models.Model):
     '''
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
-    avatar = models.ImageField(upload_to=_user_directory_path_debtors, null=True)
+    avatar = models.ImageField(upload_to=upload_path_handler_debtors, null=True)
     
     objects = CreditorsAndDebtorsManager()
 
@@ -27,13 +31,23 @@ class Debtors(models.Model):
     def get_absolute_url(self):
         return reverse('debtors-detail', args=[str(self.id)])
 
+    # Model Save override used when image is uploaded
+    def save(self, *args, **kwargs):
+        if self.id is None:
+            saved_image = self.avatar
+            self.avatar = None
+            super(Debtors, self).save(*args, **kwargs)
+            self.avatar = saved_image
+
+        super(Debtors, self).save(*args, **kwargs)
+
 class Creditors(models.Model):
     '''
         Model represents people who are creditors.
     '''
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
-    avatar = models.ImageField(upload_to=_user_directory_path_creditors, null=True)
+    avatar = models.ImageField(upload_to=upload_path_handler_creditors, null=True)
 
     objects = CreditorsAndDebtorsManager()
 
@@ -45,6 +59,16 @@ class Creditors(models.Model):
     
     def get_absolute_url(self):
         return reverse('creditors-detail', args=[str(self.id)])
+
+    # Model Save override used when image is uploaded
+    def save(self, *args, **kwargs):
+        if self.id is None:
+            saved_image = self.avatar
+            self.avatar = None
+            super(Creditors, self).save(*args, **kwargs)
+            self.avatar = saved_image
+
+        super(Creditors, self).save(*args, **kwargs)
 
 class Debts(models.Model):
     '''
