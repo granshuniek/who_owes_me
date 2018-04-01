@@ -1,5 +1,11 @@
 {% extends "debt_manager/base_generic.html" %}
 {% load debt_manager_extras %}
 {% block content %}
-
+    <h3>Debtor detail information:</h3>
+    <!-- <img src='{{ MEDIA_ROOT }}{{ object.avatar }}'> -->
+    <p><strong>First name:</strong> {{ object.first_name }}</p>
+    <p><strong>Last name:</strong> {{ object.last_name }}</p>
+    <p><strong>Amount of debts:</strong> </p>
+    <p><strong>Amount of charges:</strong> </p>
+    <p><strong>Saldo:</strong> </p>
 {% endblock %}
