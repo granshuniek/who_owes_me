@@ -4,13 +4,7 @@ from .models import Debtors, Debts, Creditors
 from django.db.models import Sum
 
 def index(request):
-    all_debts = Debts.objects.all()
-    debts_sum = Debts.objects.get_income_dict()
-    context = {
-        'debts': all_debts,
-        'debts_sum': debts_sum,
-    }
-
+    context = {}
     return render(request, 'debt_manager/index.html', context)
 
 class DebtListView(generic.ListView):
@@ -21,16 +15,20 @@ class DebtDetailView(generic.DetailView):
 
 class DebtorListView(generic.ListView):
     model = Debtors
-    # sum = Debtor.objects.filter(type='Flour').aggregate(Sum('column'))['column__sum']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs) 
         context['debts_sums'] = self.model.objects.get_debtor_debts_sum()
+        context['charges_sums'] = self.model.objects.get_creditor_charges_sum()
         return context
 
 class DebtorDetailView(generic.DetailView):
     model = Debtors
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs) 
+        context['debts_sums'] = self.model.objects.get_debtor_debts_sum()
+        return context
 
 class CreditorListView(generic.ListView):
     model = Creditors
