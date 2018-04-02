@@ -2,10 +2,16 @@
 {% load debt_manager_extras %}
 {% block content %}
     <h3>Debtor detail information:</h3>
-    <img src='{{ MEDIA_URL }}/{{ object.avatar }}'>
-    <p><strong>First name:</strong> {{ object.first_name }}</p>
-    <p><strong>Last name:</strong> {{ object.last_name }}</p>
-    <p><strong>Amount of debts:</strong> </p>
-    <p><strong>Amount of charges:</strong> </p>
-    <p><strong>Saldo:</strong> </p>
+    <div class="row">
+        <div class="col-sm">
+            <img id='avatar' src='{{ MEDIA_URL }}/{{ object.avatar }}'>
+        </div>
+        <div class="col-sm">
+            <p><strong>First name:</strong> {{ object.first_name }}</p>
+            <p><strong>Last name:</strong> {{ object.last_name }}</p>
+            <p><strong>Amount of debts:</strong> {{ debts_sums|get_item:object.id }} </p>
+            <p><strong>Amount of charges:</strong> </p>
+            <p><strong>Saldo:</strong> </p>
+        </div>
+    </div>
 {% endblock %}

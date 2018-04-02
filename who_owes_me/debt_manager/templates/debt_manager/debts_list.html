@@ -2,7 +2,7 @@
 
 {% block content %}
     {% if debts_list %}
-    <table class="table">
+    <table class="table table-hover">
         <tr>
             <th>ID</th>
             <th>Who?</th>
@@ -20,5 +20,7 @@
             </tr>
         {% endfor %}
     </table>
+    {% else %}
+        <h2>There is no debts!</h2>
     {% endif %}
 {% endblock %}
