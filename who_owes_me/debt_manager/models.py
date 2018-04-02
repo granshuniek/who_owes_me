@@ -5,12 +5,12 @@ from .managers import DebtsManager, CreditorsAndDebtorsManager
 def upload_path_handler_debtors(instance, filename):
     import os.path
     fn, ext = os.path.splitext(filename)
-    return "media/debt_manager/avatars/debtors/{id}/{fn}{ext}".format(id=instance.pk, fn=fn,ext=ext)
+    return "{{ MEDIA_URL }}/debt_manager/avatars/debtors/{id}/{fn}{ext}".format(id=instance.pk, fn=fn,ext=ext)
 
 def upload_path_handler_creditors(instance, filename):
     import os.path
     fn, ext = os.path.splitext(filename)
-    return "media/debt_manager/avatars/creditors/{id}/{fn}{ext}".format(id=instance.pk, fn=fn,ext=ext)
+    return "{{ MEDIA_URL }}/debt_manager/avatars/creditors/{id}/{fn}{ext}".format(id=instance.pk, fn=fn,ext=ext)
 
 class Debtors(models.Model):
     '''

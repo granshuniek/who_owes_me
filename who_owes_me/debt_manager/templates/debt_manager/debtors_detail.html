@@ -2,7 +2,7 @@
 {% load debt_manager_extras %}
 {% block content %}
     <h3>Debtor detail information:</h3>
-    <!-- <img src='{{ MEDIA_ROOT }}{{ object.avatar }}'> -->
+    <img src='{{ MEDIA_URL }}/{{ object.avatar }}'>
     <p><strong>First name:</strong> {{ object.first_name }}</p>
     <p><strong>Last name:</strong> {{ object.last_name }}</p>
     <p><strong>Amount of debts:</strong> </p>
