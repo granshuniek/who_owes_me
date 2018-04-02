@@ -1,6 +1,6 @@
 from django.db import models
 from django.urls import reverse
-from .managers import DebtsManager, CreditorsAndDebtorsManager
+from .managers import CreditorsAndDebtorsManager
 
 def upload_path_handler_debtors(instance, filename):
     import os.path
@@ -80,7 +80,6 @@ class Debts(models.Model):
     for_what = models.CharField(max_length=250)
     description = models.TextField(max_length=1000)
     date = models.DateTimeField()
-    objects = DebtsManager()
 
     def __str__(self):
         return "{0} - {1} (date: {2}): {3}".format(self.amount, self.for_what, self.date ,self.description)
