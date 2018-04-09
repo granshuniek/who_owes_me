@@ -1,9 +1,10 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-
+    path('accounts/', include('django.contrib.auth.urls')),
+    
     path('debts/', views.DebtListView.as_view(), name='debts-list'),
     path('debt/<int:pk>', views.DebtDetailView.as_view(), name='debts-detail'),
 
