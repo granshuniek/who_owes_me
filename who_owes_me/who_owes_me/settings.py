@@ -126,3 +126,5 @@ MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = '/'
+
+AUTH_USER_MODEL = 'debt_manager.DebtUser'
