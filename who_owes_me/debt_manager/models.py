@@ -3,15 +3,10 @@ from django.urls import reverse
 from .managers import CreditorsAndDebtorsManager
 from django.contrib.auth.models import AbstractUser
 
-def upload_path_handler_debtors(instance, filename):
-    import os.path
-    fn, ext = os.path.splitext(filename)
-    return "{{ MEDIA_URL }}/debt_manager/avatars/debtors/{id}/{fn}{ext}".format(id=instance.pk, fn=fn,ext=ext)
-
 def upload_path_handler_creditors(instance, filename):
     import os.path
     fn, ext = os.path.splitext(filename)
-    return "{{ MEDIA_URL }}/debt_manager/avatars/creditors/{id}/{fn}{ext}".format(id=instance.pk, fn=fn,ext=ext)
+    return "{{ MEDIA_URL }}/debt_manager/avatars/users/{id}/{fn}{ext}".format(id=instance.pk, fn=fn,ext=ext)
 
 class User(AbstractUser)
     """
@@ -35,7 +30,7 @@ class Debtors(models.Model):
     """
         Model represents people who are owe money.
     """
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     objects = CreditorsAndDebtorsManager()
 
     def __str__(self):
@@ -51,7 +46,7 @@ class Creditors(models.Model):
     """
         Model represents people who are creditors.
     """
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     objects = CreditorsAndDebtorsManager()
 
     def __str__(self):
@@ -67,8 +62,8 @@ class Debts(models.Model):
     """
         Model represents all debts.
     """
-    debtor = models.ForeignKey('Debtors', on_delete=models.SET_NULL, null=True)
-    creditor = models.ForeignKey('Creditors', on_delete=models.SET_NULL, null=True)
+    debtor = models.ForeignKey('Debtors', on_delete=models.CASCADE)
+    creditor = models.ForeignKey('Creditors', on_delete=models.CASCADE)
     amount = models.FloatField()
     for_what = models.CharField(max_length=250)
     description = models.TextField(max_length=1000)
