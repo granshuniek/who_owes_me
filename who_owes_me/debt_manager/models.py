@@ -1,37 +1,45 @@
 from django.db import models
 from django.urls import reverse
 from .managers import CreditorsAndDebtorsManager
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 def upload_path_handler_creditors(instance, filename):
     import os.path
     fn, ext = os.path.splitext(filename)
-    return "{{ MEDIA_URL }}/debt_manager/avatars/users/{id}/{fn}{ext}".format(id=instance.pk, fn=fn,ext=ext)
+    return "debt_manager/avatars/users/{id}/{fn}{ext}".format(id=instance.pk, fn=fn,ext=ext)
 
-class UserProfile(AbstractUser):
+class Profile(User):
     """
         Model represents people who are owe money.
     """
-    first_name = models.CharField(max_length=200)
-    last_name = models.CharField(max_length=200)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     avatar = models.ImageField(upload_to=upload_path_handler_creditors, null=True)
-
-    USERNAME_FIELD = 'username'
 
     # Model Save override used when image is uploaded
     def save(self, *args, **kwargs):
         if self.id is None:
             saved_image = self.avatar
             self.avatar = None
-            super(UserProfile, self).save(*args, **kwargs)
+            super(Profile, self).save(*args, **kwargs)
             self.avatar = saved_image
-        super(UserProfile, self).save(*args, **kwargs)
+        super(Profile, self).save(*args, **kwargs)
+
+    @receiver(post_save, sender=User)
+    def create_user_profile(sender, instance, created, **kwargs):
+        if created:
+            UserProfile.objects.create(user=instance)
+    
+    @receiver(post_save, sender=User)
+    def save_user_profile(sender, instance, **kwargs):
+        instance.profile.save()
 
 class Debtors(models.Model):
     """
         Model represents people who are owe money.
     """
-    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     objects = CreditorsAndDebtorsManager()
 
     def __str__(self):
@@ -47,7 +55,7 @@ class Creditors(models.Model):
     """
         Model represents people who are creditors.
     """
-    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     objects = CreditorsAndDebtorsManager()
 
     def __str__(self):
