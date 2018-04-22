@@ -12,7 +12,6 @@ class UserProfile(AbstractUser):
     """
         Model represents people who are owe money.
     """
-    user = models.ForeignKey(User, unique=True, related_name='profile')
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
     avatar = models.ImageField(upload_to=upload_path_handler_creditors, null=True)
@@ -32,7 +31,7 @@ class Debtors(models.Model):
     """
         Model represents people who are owe money.
     """
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     objects = CreditorsAndDebtorsManager()
 
     def __str__(self):
@@ -48,7 +47,7 @@ class Creditors(models.Model):
     """
         Model represents people who are creditors.
     """
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     objects = CreditorsAndDebtorsManager()
 
     def __str__(self):
