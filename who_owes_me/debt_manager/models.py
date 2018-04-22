@@ -8,14 +8,17 @@ def upload_path_handler_creditors(instance, filename):
     fn, ext = os.path.splitext(filename)
     return "{{ MEDIA_URL }}/debt_manager/avatars/users/{id}/{fn}{ext}".format(id=instance.pk, fn=fn,ext=ext)
 
-class User(AbstractUser)
+class User(AbstractUser):
     """
         Model represents people who are owe money.
     """
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
     email = models.EmailField(max_length=200)
+    login = models.CharField(max_length=200, unique=True)
     avatar = models.ImageField(upload_to=upload_path_handler_creditors, null=True)
+
+    USERNAME_FIELD = 'login'
 
     # Model Save override used when image is uploaded
     def save(self, *args, **kwargs):

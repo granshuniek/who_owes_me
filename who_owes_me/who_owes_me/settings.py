@@ -127,4 +127,4 @@ STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = '/'
 
-AUTH_USER_MODEL = 'debt_manager.DebtUser'
+AUTH_USER_MODEL = 'debt_manager.User'
