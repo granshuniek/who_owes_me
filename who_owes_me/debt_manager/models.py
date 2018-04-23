@@ -10,12 +10,15 @@ def upload_path_handler_creditors(instance, filename):
     fn, ext = os.path.splitext(filename)
     return "debt_manager/avatars/users/{id}/{fn}{ext}".format(id=instance.pk, fn=fn,ext=ext)
 
-class Profile(User):
+class Profile(models.Model):
     """
         Model represents people who are owe money.
     """
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.ImageField(upload_to=upload_path_handler_creditors, null=True)
+    avatar = models.ImageField('Profile picture',
+                                upload_to=upload_path_handler_creditors, 
+                                null=True, 
+                                blank=True)
 
     # Model Save override used when image is uploaded
     def save(self, *args, **kwargs):
@@ -26,14 +29,14 @@ class Profile(User):
             self.avatar = saved_image
         super(Profile, self).save(*args, **kwargs)
 
-    @receiver(post_save, sender=User)
-    def create_user_profile(sender, instance, created, **kwargs):
-        if created:
-            UserProfile.objects.create(user=instance)
+    # @receiver(post_save, sender=User)
+    # def create_user_profile(sender, instance, created, **kwargs):
+    #     if created:
+    #         Profile.objects.create(user=instance)
     
-    @receiver(post_save, sender=User)
-    def save_user_profile(sender, instance, **kwargs):
-        instance.profile.save()
+    # @receiver(post_save, sender=User)
+    # def save_user_profile(sender, instance, **kwargs):
+    #     instance.profile.save()
 
 class Debtors(models.Model):
     """

@@ -1,8 +1,20 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.contrib.auth.models import User
 from .models import Debtors, Debts, Creditors, Profile
-from django.contrib.auth.admin import UserAdmin
+
+
+class ProfileInline(admin.StackedInline):
+    model = Profile
+    can_delete = False
+    verbose_name_plural = 'Profiles'
+
+class UserAdmin(BaseUserAdmin):
+    inlines = (ProfileInline, )
 
 admin.site.register(Debtors)
 admin.site.register(Creditors)
 admin.site.register(Debts)
-admin.site.register(Profile, UserAdmin)
+
+admin.site.unregister(User)
+admin.site.register(User, UserAdmin)
