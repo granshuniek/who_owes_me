@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import generic
-from .models import Debtors, Debts, Creditors
+from .models import Debtors, Debts, Creditors, Profile
 from django.db.models import Sum
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -40,3 +40,6 @@ class CreditorListView(LoginRequiredMixin, generic.ListView):
 
 class CreditorDetailView(LoginRequiredMixin, generic.DetailView):
     model = Creditors
+
+class ProfileDetailView(LoginRequiredMixin, generic.DetailView):
+    model = Profile
