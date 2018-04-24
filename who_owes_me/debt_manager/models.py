@@ -28,6 +28,9 @@ class Profile(models.Model):
             super(Profile, self).save(*args, **kwargs)
             self.avatar = saved_image
         super(Profile, self).save(*args, **kwargs)
+    
+    def get_absolute_url(self):
+        return reverse('profile-detail', args=[str(self.id)])
 
 class Debtors(models.Model):
     """
