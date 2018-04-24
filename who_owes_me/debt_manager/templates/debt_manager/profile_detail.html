@@ -1,0 +1,19 @@
+{% extends "debt_manager/base_generic.html" %}
+{% load debt_manager_extras %}
+{% block content %}
+    <h3>Profile:</h3>
+    <div class="row">
+        <div class="col-sm">
+            <img id='avatar' src='{{ MEDIA_URL }}/{{ object.avatar }}'>
+        </div>
+        <div class="col-sm">
+            <p><strong>Username:</strong> {{ object.user.username }}</p>
+            <p><strong>First name:</strong> {{ object.user.first_name }}</p>
+            <p><strong>Last name:</strong> {{ object.user.last_name }}</p>
+            <p><strong>Email:</strong> {{ object.user.email }}</p>
+            {% comment %} <p><strong>Amount of debts:</strong> {{ debts_sums|get_item:object.id }} </p> {% endcomment %}
+            {% comment %} <p><strong>Amount of charges:</strong> </p> {% endcomment %}
+            {% comment %} <p><strong>Saldo:</strong> </p> {% endcomment %}
+        </div>
+    </div>
+{% endblock %}
