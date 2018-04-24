@@ -36,7 +36,9 @@ class Debtors(models.Model):
     """
         Model represents people who are owe money.
     """
-    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    user = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True)
+    first_name = models.CharField(max_length=200, null=True)
+    last_name = models.CharField(max_length=200, null=True)
     objects = CreditorsAndDebtorsManager()
 
     def __str__(self):
@@ -53,6 +55,8 @@ class Creditors(models.Model):
         Model represents people who are creditors.
     """
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=200, null=True)
+    last_name = models.CharField(max_length=200, null=True)
     objects = CreditorsAndDebtorsManager()
 
     def __str__(self):
