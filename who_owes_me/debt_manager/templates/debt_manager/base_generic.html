@@ -40,6 +40,17 @@
                         <li class="nax-item">
                             <a class="nav-link" href="{{ user.profile.get_absolute_url }}">{{ user.first_name }} {{ user.last_name }}</a>
                         </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Manage debts
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="#">Add debts</a>
+                                <a class="dropdown-item" href="#">Delete debts</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Charts</a>
+                            </div>
+                        </li>
                         <li class="nax-item">
                             <a class="nav-link" href="{% url 'logout' %}?next{{ request.path }}">
                                 <button class="btn btn-dark btn-sm">Logout</button>
