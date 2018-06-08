@@ -1,6 +1,6 @@
 from django.db import models
 from django.urls import reverse
-from .managers import CreditorsAndDebtorsManager
+from .managers import CreditorsAndDebtorsManager, DebtsManager
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -19,7 +19,6 @@ class Profile(models.Model):
                                 upload_to=upload_path_handler_creditors, 
                                 null=True, 
                                 blank=True)
-
     # Model Save override used when image is uploaded
     def save(self, *args, **kwargs):
         if self.id is None:
@@ -37,8 +36,8 @@ class Debtors(models.Model):
         Model represents people who are owe money.
     """
     user = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True)
-    first_name = models.CharField(max_length=200, null=True)
-    last_name = models.CharField(max_length=200, null=True)
+    # first_name = models.CharField(max_length=200, null=True)
+    # last_name = models.CharField(max_length=200, null=True)
     objects = CreditorsAndDebtorsManager()
 
     def __str__(self):
@@ -55,8 +54,8 @@ class Creditors(models.Model):
         Model represents people who are creditors.
     """
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    first_name = models.CharField(max_length=200, null=True)
-    last_name = models.CharField(max_length=200, null=True)
+    # first_name = models.CharField(max_length=200, null=True)
+    # last_name = models.CharField(max_length=200, null=True)
     objects = CreditorsAndDebtorsManager()
 
     def __str__(self):
@@ -78,6 +77,8 @@ class Debts(models.Model):
     for_what = models.CharField(max_length=250)
     description = models.TextField(max_length=1000)
     date = models.DateTimeField()
+
+    objects = DebtsManager()
 
     def __str__(self):
         return "{0} - {1} (date: {2}): {3}".format(self.amount, self.for_what, self.date ,self.description)
