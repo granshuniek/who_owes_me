@@ -59,7 +59,6 @@ class DebtsManager(models.Manager):
         response = _execute_sql(sql)
         for row in response:
             debt_dict = {}
-            debt_dict['creditor'] = 
+            debt_dict['creditor'] =
         return res
 
-    

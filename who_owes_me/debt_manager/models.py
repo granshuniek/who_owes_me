@@ -19,6 +19,7 @@ class Profile(models.Model):
                                 upload_to=upload_path_handler_creditors, 
                                 null=True, 
                                 blank=True)
+
     # Model Save override used when image is uploaded
     def save(self, *args, **kwargs):
         if self.id is None:
