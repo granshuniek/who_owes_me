@@ -10,6 +10,10 @@ def index(request):
 
 class DebtListView(LoginRequiredMixin, generic.ListView):
     model = Debts
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['users_debt_list'] = self.model.objects.get_current_user_dict_of_debts(self.request.user.id)
+        return context
 
 class DebtDetailView(LoginRequiredMixin, generic.DetailView):
     model = Debts

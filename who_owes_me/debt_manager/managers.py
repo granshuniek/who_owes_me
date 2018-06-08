@@ -55,10 +55,15 @@ class DebtsManager(models.Manager):
         sql = '''
             SELECT * from debt_manager_debts where id={0}
         '''.format(users_id)
-        users_debt_dict = {}
+        users_debt_list = []
         response = _execute_sql(sql)
         for row in response:
             debt_dict = {}
-            debt_dict['creditor'] =
-        return res
+            debt_dict['id'] = row[0]
+            debt_dict['amount'] = row[1]
+            debt_dict['for_what'] = row[2]
+            debt_dict['date'] = row[4]
+            debt_dict['creditor'] = row[5]
+            users_debt_list.append(debt_dict)
+        return users_debt_list
 
