@@ -49,4 +49,10 @@ class CreditorsAndDebtorsManager(models.Manager):
             return_dict[debtor_id] = sumed_debt
         return return_dict
 
-    
+class DebtsManager(models.Manager):
+    def get_current_user_debts(self, id):
+        users_debts = {}
+        sql = '''
+            SELECT * from debt_manager_debts where 
+        '''
+        pass

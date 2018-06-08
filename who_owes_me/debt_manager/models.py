@@ -1,6 +1,6 @@
 from django.db import models
 from django.urls import reverse
-from .managers import CreditorsAndDebtorsManager
+from .managers import CreditorsAndDebtorsManager, DebtsManager
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -78,7 +78,7 @@ class Debts(models.Model):
     for_what = models.CharField(max_length=250)
     description = models.TextField(max_length=1000)
     date = models.DateTimeField()
-
+    objects = DebtsManager()
     def __str__(self):
         return "{0} - {1} (date: {2}): {3}".format(self.amount, self.for_what, self.date ,self.description)
 

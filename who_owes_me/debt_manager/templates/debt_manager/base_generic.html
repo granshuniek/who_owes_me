@@ -62,11 +62,11 @@
                                 <button class="btn btn-dark btn-sm">Sign in</button>
                             </a>
                         </li>
-                        <li class="nax-item">
+                        {% comment %} <li class="nax-item">
                             <a class="nav-link" href="{% url 'registration' %}?next{{ request.path }}">
                                 <button class="btn btn-dark btn-sm">Sign up</button>
                             </a>
-                        </li>
+                        </li> {% endcomment %}
                     {% endif %}
                 </ul>
             </div>
