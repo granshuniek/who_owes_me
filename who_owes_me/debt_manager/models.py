@@ -32,6 +32,9 @@ class Profile(models.Model):
     def get_absolute_url(self):
         return reverse('profile-detail', args=[str(self.id)])
 
+    def __str__(self):
+        return "{0} {1}".format(self.user.first_name, self.user.last_name)
+
 class Debtors(models.Model):
     """
         Model represents people who are owe money.
@@ -42,6 +45,9 @@ class Debtors(models.Model):
     def get_absolute_url(self):
         return reverse('debtors-detail', args=[str(self.id)])
 
+    def __str__(self):
+        return "{0} {1}".format(self.user.user.first_name, self.user.user.last_name)
+
 class Creditors(models.Model):
     """
         Model represents people who are creditors.
@@ -51,6 +57,9 @@ class Creditors(models.Model):
     
     def get_absolute_url(self):
         return reverse('creditors-detail', args=[str(self.id)])
+
+    def __str__(self):
+        return "{0} {1}".format(self.user.user.first_name, self.user.user.last_name)
 
 class Debts(models.Model):
     """
