@@ -1,5 +1,8 @@
 from django.db import models, connection
 
+CREDITOR = 'creditor'
+DEBTOR = 'debtor'
+
 def _execute_sql(sql):
         with connection.cursor() as cursor:
             cursor.execute(sql)
@@ -63,15 +66,15 @@ class DebtsManager(models.Manager):
             debt_dict['amount'] = row[1]
             debt_dict['for_what'] = row[2]
             debt_dict['date'] = row[4]
-            creditor_tuple = self._get_creditor_info(row[5])
+            creditor_tuple = _get_creditor_or_debtor_info(CREDITOR, row[5])
             debt_dict['creditor'] = "{0} {1}".format(creditor_tuple[0], creditor_tuple[1])
             users_debt_list.append(debt_dict)
         return users_debt_list
 
-    def _get_creditor_info(self, creditor_id):
-        user_profile_sql = 'SELECT user_id FROM debt_manager_creditors WHERE id={0}'.format(creditor_id)
-        user_profile_id = _execute_sql(user_profile_sql)[0][0]
-        aut_user_sql = 'SELECT user_id FROM debt_manager_profile WHERE id={0}'.format(user_profile_id)
-        auth_user_id = _execute_sql(aut_user_sql)[0][0]
-        auth_user_info_sql = 'SELECT first_name, last_name, username FROM auth_user WHERE id={0}'.format(auth_user_id)
-        return _execute_sql(auth_user_info_sql)[0]
+def _get_creditor_or_debtor_info(person_type, creditor_id):
+    user_profile_sql = 'SELECT user_id FROM debt_manager_creditors WHERE id={0}'.format(creditor_id)
+    user_profile_id = _execute_sql(user_profile_sql)[0][0]
+    aut_user_sql = 'SELECT user_id FROM debt_manager_profile WHERE id={0}'.format(user_profile_id)
+    auth_user_id = _execute_sql(aut_user_sql)[0][0]
+    auth_user_info_sql = 'SELECT first_name, last_name, username FROM auth_user WHERE id={0}'.format(auth_user_id)
+    return _execute_sql(auth_user_info_sql)[0]
