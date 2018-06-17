@@ -51,19 +51,41 @@ class CreditorsAndDebtorsManager(models.Manager):
 
 class DebtsManager(models.Manager):
 
-    def get_current_user_dict_of_debts(self, users_id):
-        sql = '''
-            SELECT * from debt_manager_debts where id={0}
-        '''.format(users_id)
-        users_debt_list = []
-        response = _execute_sql(sql)
-        for row in response:
-            debt_dict = {}
-            debt_dict['id'] = row[0]
-            debt_dict['amount'] = row[1]
-            debt_dict['for_what'] = row[2]
-            debt_dict['date'] = row[4]
-            debt_dict['creditor'] = row[5]
-            users_debt_list.append(debt_dict)
-        return users_debt_list
+    def get_current_user_dict_of_debts(self, user_id):
+        pass
 
+    # def get_current_user_dict_of_debts(self, user_id):
+    #     user_profile_id = self._get_user_profile_id(user_id)
+    #     debts_sql = '''
+    #         SELECT * from debt_manager_debts where debtor_id={0}
+    #     '''.format(user_id)
+    #     users_debt_list = []
+    #     current_user_debts = _execute_sql(debts_sql)
+    #     for debt in current_user_debts:
+    #         debt_dict = {}
+    #         debt_dict['id'] = debt[0]
+    #         debt_dict['amount'] = debt[1]
+    #         debt_dict['for_what'] = debt[2]
+    #         debt_dict['date'] = debt[4]
+    #         auth_user_info = self._get_user_auth_info("debt_manager_creditors", debt[5])
+    #         debt_dict['creditor'] = "{0} {1}".format(auth_user_info[1], auth_user_info[2])
+    #         users_debt_list.append(debt_dict)
+    #     return users_debt_list
+    #
+    # def _get_user_auth_info(self, first_table, user_profile_id):
+    #     first_table_sql = 'SELECT user_id FROM {0} WHERE id={1}'.format(first_table, user_profile_id)
+    #     first_table_user_id = _execute_sql(first_table_sql)[0][0]
+    #     user_auth_id_sql = 'SELECT user_id FROM debt_manager_profile WHERE id={0}'.format(first_table_user_id)
+    #     user_auth_id = _execute_sql(user_auth_id_sql)[0][0]
+    #
+    #     user_auth_info_sql = '''
+    #         SELECT username, first_name, last_name, email FROM auth_user WHERE id={0}
+    #     '''.format(user_auth_id)
+    #
+    #     user_auth_info = _execute_sql(user_auth_info_sql)[0]
+    #
+    #     return user_auth_info
+    #
+    # def _get_user_profile_id(self, user_id):
+    #     sql = "SELECT id from debt_manager_profile WHERE user_id={0}".format(user_id)
+    #     return _execute_sql(sql)[0][0]
