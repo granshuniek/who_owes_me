@@ -9,12 +9,10 @@
                 <th>Last name</th>
                 <th>Debts amount</th>
             </tr>
-            {% for debtor in debtors_list %}
+            {% for debtor in current_user_debtors %}
                 <tr>
                     <td><a href="{{ debtor.get_absolute_url }}">{{ forloop.counter }}</a></td>
-                    <td><a href="{{ debtor.get_absolute_url }}">{{ debtor.user.first_name }}</a></td>
-                    <td><a href="{{ debtor.get_absolute_url }}">{{ debtor.user.last_name }}</a></td>
-                    <td><a href="{{ debtor.get_absolute_url }}">{{ debts_sums|get_item:debtor.id }}</a></td>
+                    <td><a href="{{ debtor.get_absolute_url }}">{{ debtor }}</a></td>
                 </tr>
             {% endfor %}
         </table>
