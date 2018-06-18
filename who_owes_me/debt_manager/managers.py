@@ -8,6 +8,12 @@ def _execute_sql(sql):
             cursor.execute(sql)
             return cursor.fetchall()
 
+class CreditorsManager(models.Manager):
+    pass
+
+class DebtorsManager(models.Manager):
+    pass
+
 class CreditorsAndDebtorsManager(models.Manager):
     """
         Manager for Debtors and Creditors models.
@@ -72,9 +78,16 @@ class DebtsManager(models.Manager):
         return users_debt_list
 
 def _get_creditor_or_debtor_info(person_type, creditor_id):
-    user_profile_sql = 'SELECT user_id FROM debt_manager_creditors WHERE id={0}'.format(creditor_id)
-    user_profile_id = _execute_sql(user_profile_sql)[0][0]
+    if person_type == CREDITOR:
+        user_profile_sql = 'SELECT user_id FROM debt_manager_creditors WHERE id={0}'.format(creditor_id)
+        user_profile_id = _execute_sql(user_profile_sql)[0][0]
+    if person_type == DEBTOR:
+        user_profile_sql = 'SELECT user_id FROM debt_manager_debtors WHERE id={0}'.format(creditor_id)
+        user_profile_id = _execute_sql(user_profile_sql)[0][0]
+
     aut_user_sql = 'SELECT user_id FROM debt_manager_profile WHERE id={0}'.format(user_profile_id)
     auth_user_id = _execute_sql(aut_user_sql)[0][0]
     auth_user_info_sql = 'SELECT first_name, last_name, username FROM auth_user WHERE id={0}'.format(auth_user_id)
-    return _execute_sql(auth_user_info_sql)[0]
+    user_info = _execute_sql(auth_user_info_sql)[0]
+
+    return user_info
