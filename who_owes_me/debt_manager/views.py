@@ -9,7 +9,12 @@ def index(request):
     return render(request, 'debt_manager/index.html', context)
 
 class DebtListView(LoginRequiredMixin, generic.ListView):
+    # self.request.user.id -> return auth_user id, not users profile id
     model = Debts
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['users_debt_list'] = self.model.objects.get_current_user_dict_of_debts(self.request.user.id)
+        return context
 
 class DebtDetailView(LoginRequiredMixin, generic.DetailView):
     model = Debts

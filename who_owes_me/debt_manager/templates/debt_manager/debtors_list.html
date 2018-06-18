@@ -1,4 +1,4 @@
-{% extends "debt_manager/base_generic.html" %}
+{% extends "debt_manager/base_general.html" %}
 {% load debt_manager_extras %}
 {% block content %}
     {% if debtors_list %}
@@ -12,8 +12,8 @@
             {% for debtor in debtors_list %}
                 <tr>
                     <td><a href="{{ debtor.get_absolute_url }}">{{ forloop.counter }}</a></td>
-                    <td><a href="{{ debtor.get_absolute_url }}">{{ debtor.first_name}}</a></td>
-                    <td><a href="{{ debtor.get_absolute_url }}">{{ debtor.last_name}}</a></td>
+                    <td><a href="{{ debtor.get_absolute_url }}">{{ debtor.user.first_name }}</a></td>
+                    <td><a href="{{ debtor.get_absolute_url }}">{{ debtor.user.last_name }}</a></td>
                     <td><a href="{{ debtor.get_absolute_url }}">{{ debts_sums|get_item:debtor.id }}</a></td>
                 </tr>
             {% endfor %}

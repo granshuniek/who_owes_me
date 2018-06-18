@@ -1,0 +1,6 @@
+1. Debts:
+    See current user debts and information about amount and creditor.
+2. Debtors:
+    Every user that current user owes money
+3. Creditors:
+    Every user that owes money to current user
