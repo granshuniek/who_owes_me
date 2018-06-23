@@ -12,13 +12,20 @@ class DebtorsManager(models.Manager):
     def get_current_user_debtors(self, users_id):
         user_as_creditor_id = _get_debtor_or_creditor_id(CREDITOR, users_id)
         sql = '''
-            SELECT debtor_id FROM debt_manager_debts WHERE creditor_id={0}
+            SELECT debtor_id, SUM(amount) 
+            FROM debt_manager_debts 
+            WHERE creditor_id={0}
+            GROUP BY debtor_id
         '''.format(user_as_creditor_id)
-        debtors_ids_list = _execute_sql(sql)
+        debtors_request_list = _execute_sql(sql)
         debtors_list = []
-        for debtors_id in debtors_ids_list:
-            debtor_info_tuple = _get_creditor_or_debtor_info(DEBTOR, debtors_id[0])
-            debtors_list.append('{0} {1}'.format(debtor_info_tuple[0], debtor_info_tuple[1]))
+        for debtor_tuple in debtors_request_list:
+            current_debtor_dict = {}
+            debtors_name, debtors_surname, debtors_username = _get_creditor_or_debtor_info(DEBTOR, debtor_tuple[0])
+            current_debtor_dict['name'] = debtors_name
+            current_debtor_dict['surname'] =debtors_surname
+            current_debtor_dict['amount'] = debtor_tuple[1]
+            debtors_list.append(current_debtor_dict)
         return debtors_list
 
 class CreditorsManager(models.Manager):
@@ -49,12 +56,13 @@ class DebtsManager(models.Manager):
 def _get_debtor_or_creditor_id(person_type, user_id):
     user_profile_sql = 'SELECT id FROM debt_manager_profile WHERE user_id={0}'.format(user_id)
     user_profile_id = _execute_sql(user_profile_sql)[0][0]
-    if person_type == CREDITOR:
+
+    if user_profile_id and person_type == CREDITOR:
         creditor_sql = 'SELECT id FROM debt_manager_creditors WHERE user_id={0}'.format(user_profile_id)
         person_id = _execute_sql(creditor_sql)[0][0]
         return person_id
 
-    if person_type == DEBTOR:
+    if user_profile_id and person_type == DEBTOR:
         debtor_sql = 'SELECT id FROM debt_manager_debtors WHERE user_id={0}'.format(user_profile_id)
         person_id = _execute_sql(debtor_sql)[0][0]
         return person_id

@@ -12,7 +12,9 @@
             {% for debtor in current_user_debtors %}
                 <tr>
                     <td><a href="{{ debtor.get_absolute_url }}">{{ forloop.counter }}</a></td>
-                    <td><a href="{{ debtor.get_absolute_url }}">{{ debtor }}</a></td>
+                    <td><a href="{{ debtor.get_absolute_url }}">{{ debtor.name }}</a></td>
+                    <td><a href="{{ debtor.get_absolute_url }}">{{ debtor.surname }}</a></td>
+                    <td><a href="{{ debtor.get_absolute_url }}">{{ debtor.amount }}</a></td>
                 </tr>
             {% endfor %}
         </table>
