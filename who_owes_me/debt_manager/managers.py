@@ -8,27 +8,7 @@ def _execute_sql(sql):
         cursor.execute(sql)
         return cursor.fetchall()
 
-class DebtorsManager(models.Manager):
-    def get_current_user_debtors(self, users_id):
-        user_as_creditor_id = _get_debtor_or_creditor_id(CREDITOR, users_id)
-        sql = '''
-            SELECT debtor_id, SUM(amount) 
-            FROM debt_manager_debts 
-            WHERE creditor_id={0}
-            GROUP BY debtor_id
-        '''.format(user_as_creditor_id)
-        debtors_request_list = _execute_sql(sql)
-        debtors_list = []
-        for debtor_tuple in debtors_request_list:
-            current_debtor_dict = {}
-            debtors_name, debtors_surname, debtors_username = _get_creditor_or_debtor_info(DEBTOR, debtor_tuple[0])
-            current_debtor_dict['name'] = debtors_name
-            current_debtor_dict['surname'] =debtors_surname
-            current_debtor_dict['amount'] = debtor_tuple[1]
-            debtors_list.append(current_debtor_dict)
-        return debtors_list
-
-class CreditorsManager(models.Manager):
+class DebtorsAndCreditorsManager(models.Manager):
     def get_current_user_creditors(self, users_id):
         user_as_debtor_id = _get_debtor_or_creditor_id(DEBTOR, users_id)
         sql = '''
@@ -37,19 +17,33 @@ class CreditorsManager(models.Manager):
             WHERE debtor_id={0}
             GROUP BY creditor_id
         '''.format(user_as_debtor_id)
-        creditors_request_list = _execute_sql(sql)
-        creditors_list = []
-        for creditors_tuple in creditors_request_list:
-            current_creditor_dict = {}
-            creditors_name, creditors_surname, creditors_username = _get_creditor_or_debtor_info(DEBTOR, creditors_tuple[0])
-            current_creditor_dict['name'] = creditors_name
-            current_creditor_dict['surname'] = creditors_surname
-            current_creditor_dict['amount'] = creditors_tuple[1]
-            creditors_list.append(current_creditor_dict)
+        creditors_list = self.generate_creditor_or_debtor_list(sql, CREDITOR)
         return creditors_list
 
-class DebtsManager(models.Manager):
+    def get_current_user_debtors(self, users_id):
+        user_as_creditor_id = _get_debtor_or_creditor_id(CREDITOR, users_id)
+        sql = '''
+            SELECT debtor_id, SUM(amount) 
+            FROM debt_manager_debts 
+            WHERE creditor_id={0}
+            GROUP BY debtor_id
+        '''.format(user_as_creditor_id)
+        debtors_list = self.generate_creditor_or_debtor_list(sql, DEBTOR)
+        return debtors_list
 
+    def generate_creditor_or_debtor_list(self, sql_query, preson_type):
+        request_list = _execute_sql(sql_query)
+        persons_list = []
+        for persons_tuple in request_list:
+            current_person_dict = {}
+            persons_name, persons_surname, persons_username = _get_creditor_or_debtor_info(preson_type, persons_tuple[0])
+            current_person_dict['name'] = persons_name
+            current_person_dict['surname'] = persons_surname
+            current_person_dict['amount'] = persons_tuple[1]
+            persons_list.append(current_person_dict)
+        return persons_list
+
+class DebtsManager(models.Manager):
     def get_current_user_dict_of_debts(self, users_id):
         debtor_id = _get_debtor_or_creditor_id(DEBTOR, users_id)
         sql = '''
