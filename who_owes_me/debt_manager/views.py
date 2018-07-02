@@ -39,7 +39,7 @@ class CreditorListView(LoginRequiredMixin, generic.ListView):
     model = Creditors
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs) 
-        context['charges_sums'] = self.model.objects.get_creditor_charges_sum()
+        context['current_user_creditors'] = self.model.objects.get_current_user_creditors(self.request.user.id)
         return context
 
 class CreditorDetailView(LoginRequiredMixin, generic.DetailView):

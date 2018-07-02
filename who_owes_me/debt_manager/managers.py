@@ -29,7 +29,24 @@ class DebtorsManager(models.Manager):
         return debtors_list
 
 class CreditorsManager(models.Manager):
-    pass
+    def get_current_user_creditors(self, users_id):
+        user_as_debtor_id = _get_debtor_or_creditor_id(DEBTOR, users_id)
+        sql = '''
+            SELECT creditor_id, SUM(amount) 
+            FROM debt_manager_debts 
+            WHERE debtor_id={0}
+            GROUP BY creditor_id
+        '''.format(user_as_debtor_id)
+        creditors_request_list = _execute_sql(sql)
+        creditors_list = []
+        for creditors_tuple in creditors_request_list:
+            current_creditor_dict = {}
+            creditors_name, creditors_surname, creditors_username = _get_creditor_or_debtor_info(DEBTOR, creditors_tuple[0])
+            current_creditor_dict['name'] = creditors_name
+            current_creditor_dict['surname'] = creditors_surname
+            current_creditor_dict['amount'] = creditors_tuple[1]
+            creditors_list.append(current_creditor_dict)
+        return creditors_list
 
 class DebtsManager(models.Manager):
 

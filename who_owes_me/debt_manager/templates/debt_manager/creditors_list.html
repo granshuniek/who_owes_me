@@ -1,7 +1,7 @@
 {% extends "debt_manager/base_general.html" %}
 {% load debt_manager_extras %}
 {% block content %}
-    {% if creditors_list %}
+    {% if current_user_creditors %}
     <table class="table table-hover">
             <tr>
                 <th>ID</th>
@@ -9,12 +9,12 @@
                 <th>Last name</th>
                 <th>Debts amount</th>
             </tr>
-            {% for creditor in creditors_list %}
+            {% for creditor in current_user_creditors %}
                 <tr>
                     <td><a href="{{ creditor.get_absolute_url }}">{{ forloop.counter }}</a></td>
-                    <td><a href="{{ creditor.get_absolute_url }}">{{ creditor.user.first_name }}</a></td>
-                    <td><a href="{{ creditor.get_absolute_url }}">{{ creditor.user.last_name }}</a></td>
-                    <td><a href="{{ creditor.get_absolute_url }}">{{ charges_sums|get_item:creditor.id }}</a></td>
+                    <td><a href="{{ creditor.get_absolute_url }}">{{ creditor.name }}</a></td>
+                    <td><a href="{{ creditor.get_absolute_url }}">{{ creditor.surname }}</a></td>
+                    <td><a href="{{ creditor.get_absolute_url }}">{{ creditor.amount }}</a></td>
                 </tr>
             {% endfor %}
         </table>
