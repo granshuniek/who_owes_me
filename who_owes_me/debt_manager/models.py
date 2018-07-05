@@ -1,6 +1,6 @@
 from django.db import models
 from django.urls import reverse
-from .managers import CreditorsAndDebtorsManager, DebtsManager
+from .managers import DebtorsAndCreditorsManager, DebtsManager
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -40,7 +40,7 @@ class Debtors(models.Model):
         Model represents people who are owe money.
     """
     user = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True)
-    objects = CreditorsAndDebtorsManager()
+    objects = DebtorsAndCreditorsManager()
     
     def get_absolute_url(self):
         return reverse('debtors-detail', args=[str(self.id)])
@@ -53,7 +53,7 @@ class Creditors(models.Model):
         Model represents people who are creditors.
     """
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    objects = CreditorsAndDebtorsManager()
+    objects = DebtorsAndCreditorsManager()
     
     def get_absolute_url(self):
         return reverse('creditors-detail', args=[str(self.id)])
